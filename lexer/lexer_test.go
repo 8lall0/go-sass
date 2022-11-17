@@ -12,11 +12,15 @@ func TestNextToken(t *testing.T) {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
-		{token.VARIABLE, "$variable"},
+		{token.DOLLARSIGN, "$"},
+		{token.STRING, "variable"},
+		{token.WHITESPACE, " "},
 		{token.ASSIGN, "="},
-		{token.COLOR_HEX, "#000"},
+		{token.WHITESPACE, " "},
+		{token.HASH, "#"},
+		{token.NUMBER, "000"},
 		{token.SEMICOLON, ";"},
-		{token.EOF, ""},
+		{token.EOF, "\x00"},
 	}
 
 	l := New(input)
@@ -25,7 +29,7 @@ func TestNextToken(t *testing.T) {
 		tok := l.NextToken()
 
 		if tok.Type != tt.expectedType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected: %q, got: %q", i, tt.expectedType, tok.Type)
+			t.Fatalf("tests[%d] - tokentype wrong. expected: %d, got: %d", i, int(tt.expectedType), int(tok.Type))
 		}
 
 		if tok.Literal != tt.expectedLiteral {

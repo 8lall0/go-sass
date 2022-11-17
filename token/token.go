@@ -1,6 +1,6 @@
 package token
 
-type TokenType string
+type TokenType int
 
 type Token struct {
 	Type    TokenType
@@ -8,27 +8,31 @@ type Token struct {
 }
 
 const (
-	ILLEGAL TokenType = "ILLEGAL"
-	EOF               = "EOF"
+	ILLEGAL TokenType = iota
+	EOF
+	AT
+	DOLLARSIGN
+	WHITESPACE
+	HASH
 
-	SEMICOLON = ";"
-	COLONS    = ":"
+	ADD
+	SUB
+	MUL
+	DIV
+	SEMICOLON
+	COLONS
+	PERIOD
+	COMMA
 
-	LBRACE = "{"
-	RBRACE = "}"
+	LBRACE
+	RBRACE
+	LSQUARE
+	RSQUARE
+	LPAREN
+	RPAREN
 
-	SELECTOR = "SELECTOR"
-	PROPERTY = "PROPERTY"
+	ASSIGN
 
-	VARIABLE  = "VARIABLE"
-	ASSIGN    = "="
-	IDENT     = "IDENT"
-	COLOR_HEX = "COLOR HEX"
-
-	// SASS stuff
-	ATRULE = "AT-RULE"
+	NUMBER
+	STRING
 )
-
-func LookupIdent(ident string) TokenType {
-	return IDENT
-}
