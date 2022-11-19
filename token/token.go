@@ -11,6 +11,7 @@ const (
 	ILLEGAL TokenType = iota
 	EOF
 	WHITESPACE
+	IDENTIFIER
 	HASH
 
 	ADD
@@ -85,7 +86,7 @@ func LookupAtRule(identifier string) Token {
 	if tokType, ok := reservedAtRules[identifier]; ok {
 		tok.Type = tokType
 	} else {
-		tok.Type = STRING
+		tok.Type = IDENTIFIER
 	}
 
 	return tok
@@ -93,7 +94,7 @@ func LookupAtRule(identifier string) Token {
 
 func LookupHash(identifier string) TokenType {
 	// TODO check if is identifier or HEX CODE
-	return STRING
+	return IDENTIFIER
 }
 
 func LookupVariable(identifier string) TokenType {
