@@ -56,8 +56,8 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
-	case token.VARIABLE:
-		return p.parseVariableStatement()
+	case token.DOLLARSIGN:
+		return p.parseDollarSignStatement()
 	default:
 		return nil
 	}

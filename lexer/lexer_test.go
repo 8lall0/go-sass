@@ -12,8 +12,7 @@ func TestNextToken(t *testing.T) {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
-		{token.DOLLARSIGN, "$"},
-		{token.STRING, "variable"},
+		{token.VARIABLE, "variable"},
 		{token.WHITESPACE, " "},
 		{token.ASSIGN, "="},
 		{token.WHITESPACE, " "},

@@ -32,7 +32,8 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case ' ':
-		tok = newToken(token.WHITESPACE, l.ch)
+		l.skipWhitespace()
+		tok = newToken(token.WHITESPACE, ' ')
 	case '{':
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
@@ -64,14 +65,15 @@ func (l *Lexer) NextToken() token.Token {
 	case '/':
 		tok = newToken(token.DIV, l.ch)
 	case '@':
-		tok = newToken(token.AT, l.ch)
+		tok = token.LookupAtRule(l.readStringIdentifier())
 	case '$':
-		tok = newToken(token.DOLLARSIGN, l.ch)
+		identifier := l.readStringIdentifier()
+		tok.Type = token.LookupVariable(identifier)
+		tok.Literal = identifier
 	case '#':
 		tok = newToken(token.HASH, l.ch)
 	case 0:
 		tok = newToken(token.EOF, 0)
-		return tok
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readStringIdentifier()
@@ -80,12 +82,14 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readDigitIdentifier()
 			tok.Type = token.NUMBER
 		} else {
+			// UHMMM....
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
-		return tok
 	}
 
-	l.readChar()
+	if tok.Type != token.ILLEGAL && tok.Type != token.EOF {
+		l.readChar()
+	}
 
 	return tok
 }
